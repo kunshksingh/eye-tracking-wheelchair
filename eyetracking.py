@@ -19,19 +19,9 @@ LEFT_IRIS=[474, 475, 476, 477]
 RIGHT_IRIS=[469, 470, 471, 472]
 
 map_face_mesh = mp.solutions.face_mesh
+
 # camera object 
 camera = cv.VideoCapture(0)
-
-# # landmark detection function 
-# def landmarksDetection(img, results, draw=False):
-#     img_height, img_width= img.shape[:2]
-#     # list[(x,y), (x,y)....]
-#     mesh_coord = [(int(point.x * img_width), int(point.y * img_height)) for point in results.multi_face_landmarks[0].landmark]
-#     if draw :
-#         [cv.circle(img, p, 2, utils.GREEN, -1) for p in mesh_coord]
-
-#     # returning the list of tuples for each landmarks 
-#     return mesh_coord
 
 with map_face_mesh.FaceMesh(
     min_detection_confidence =0.5, 
@@ -45,22 +35,28 @@ with map_face_mesh.FaceMesh(
     while True:
         frame_counter +=1 # frame counter
         ret, frame = camera.read() # getting frame from camera
-        frame = cv.flip(frame,1)
+        frame = cv.flip(frame,1) #flip frame
 
         rgb_frame = cv.cvtColor(frame, cv.COLOR_RGB2BGR)
         img_h, img_w = frame.shape[:2] 
         results  = face_mesh.process(rgb_frame)
         if results.multi_face_landmarks:
+            #get mesh points from frame data
             mesh_points = np.array([np.multiply([p.x,p.y],[img_w, img_h]).astype(int) for p in results.multi_face_landmarks[0].landmark])
 
+        #get coordinates of eye-data
         (l_cx, l_cy), l_radius = cv.minEnclosingCircle(mesh_points[LEFT_IRIS])
         (r_cx, r_cy), r_radius = cv.minEnclosingCircle(mesh_points[RIGHT_IRIS])
+
+        #get center of left/right iris in eye
         center_left = np.array([l_cx, l_cy], dtype = np.int32)
         center_right = np.array([r_cx, r_cy], dtype = np.int32)
+
+        #draw circle around irises
         cv.circle(frame, center_left, int(l_radius), (255,0,255), 1, cv.LINE_AA)
         cv.circle(frame, center_right, int(r_radius), (255,0,0), 1, cv.LINE_AA)
 
-        # calculating  frame per seconds FPS
+        # calculating frame per seconds FPS
         end_time = time.time()-start_time
         fps = frame_counter/end_time
 

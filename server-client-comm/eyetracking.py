@@ -8,7 +8,7 @@ import utils
 import os
 import socket
 
-HOST = "172.20.10.7"  # Run ipconfig on this computer and grab ipv4 address
+HOST = "172.20.10.9"  # Run ipconfig on this computer and grab ipv4 address
 PORT = 80  # The port used by the server (can be changed to anything not reserved)
 
 # initialize tcp connection
@@ -35,13 +35,13 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         irisX = ((iris[0] - eye[0])+0.5)/nFac[0] # Normalize across eyeX
         irisY = ((iris[1] - eye[1])+0.5)/nFac[1] # Normalize across eyeY
 
-        if (abs(irisX) > abs(irisY)):# We want to use the direction that the iris is furthest in
+        if (abs(irisX) > abs(irisY*1.2)):# We want to use the direction that the iris is furthest in
             if (irisX >= 0.5): #Iris is right
                 return "RIGHT"
             elif(irisX <= -0.4): #Iris is left
                 return "LEFT"
         else:
-            if (irisY >= 0.00): #Iris is down
+            if (irisY >= -0.152): #Iris is down
                 return "DOWN"
             elif (irisY <= -0.4): #Iris is up
                 return "UP"

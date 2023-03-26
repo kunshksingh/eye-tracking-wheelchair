@@ -26,10 +26,12 @@ int stop = 0;
 
 WiFiServer server(80);
 
-Servo ForwardStop_servo;  // create servo object to control a servo
-Servo LeftRight_servo;
-int ForwardStopPort = 15;
-int LeftRightPort = 2;
+Servo ForwardServo;  // create servo object to control a servo
+Servo LeftServo;
+Servo RightServo;
+int ForwardPort = 15;
+int LeftPort = 2;
+int RightPort = 4;
 
 void Forward();
 void Stop();
@@ -38,6 +40,25 @@ void Right();
 
 void setup()
 {
+  //setup motor positions 
+
+    ForwardServo.attach(ForwardPort);
+    LeftServo.attach(LeftPort);
+    RightServo.attach(RightPort);
+    //90 to 0
+    ForwardServo.write(90);
+    delay(100);
+    ForwardServo.detach();
+    //90 to 180
+    LeftServo.write(90);
+    delay(100);
+    LeftServo.detach();
+    //90 to 180
+    RightServo.write(90);
+    delay(100);
+    RightServo.detach();
+
+
     Serial.begin(115200);
     Serial2.begin(9600, SERIAL_8N1, RXp2, TXp2);
     delay(10);
@@ -118,29 +139,41 @@ void loop(){
   }
 }
 void Forward(){
-  ForwardStop_servo.attach(ForwardStopPort);
-
-  ForwardStop_servo.detach();
-
+  ForwardServo.attach(ForwardPort);
+  ForwardServo.write(0);
+  delay(100);
+  ForwardServo.detach();
   Serial.print("Forward");
 }
 void Stop(){
-  ForwardStop_servo.attach(ForwardStopPort);
-
-  ForwardStop_servo.detach();
+  ForwardServo.attach(ForwardPort);
+  LeftServo.attach(LeftPort);
+  RightServo.attach(RightPort);
+  //90 to 0
+  ForwardServo.write(90);
+  delay(100);
+  ForwardServo.detach();
+  //90 to 180
+  LeftServo.write(90);
+  delay(100);
+  LeftServo.detach();
+  //90 to 180
+  RightServo.write(90);
+  delay(100);
+  RightServo.detach();
   Serial.print("Stop");
 }
 void Right(){
-  LeftRight_servo.attach(LeftRightPort);
-
-
-  LeftRight_servo.detach();
+  RightServo.attach(RightPort);
+  RightServo.write(180);
+  delay(100);
+  RightServo.detach();
   Serial.print("Right");
 }
 void Left(){
-  LeftRight_servo.attach(LeftRightPort);
-
-
-  LeftRight_servo.detach();
+  LeftServo.attach(LeftPort);
+  LeftServo.write(180);
+  delay(100);
+  LeftServo.detach();
   Serial.print("Left");
 }

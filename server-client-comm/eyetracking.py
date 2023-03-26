@@ -41,7 +41,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             elif(irisX <= -0.4): #Iris is left
                 return "LEFT"
         else:
-            if (irisY >= -0.152): #Iris is down
+            if (irisY >= -0.104): #Iris is down
                 return "DOWN"
             elif (irisY <= -0.4): #Iris is up
                 return "UP"
@@ -139,8 +139,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 elif mDir == "RIGHT":
                     bitstring = "0001\n"
 
+                print(bitstring)
                 s.sendall(bitstring.encode()) #Send eye-direction data over TCP stream
-
+                time.sleep(0.04)
                 # calculating frame per seconds FPS
                 end_time = time.time()-start_time
                 fps = frame_counter/end_time

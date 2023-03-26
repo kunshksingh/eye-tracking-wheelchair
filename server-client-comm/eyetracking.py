@@ -7,13 +7,11 @@ import numpy as np
 import utils
 import os
 
-# samples = 0
-# avgX = 0
-# avgY = 0
 #Determine direction to move wheelchair based on location of iris relative to eye 
 # iris: tuple(x:int, y:int)
 # eye: tuple(x:int, y:int)
 # nFac: tuple(x:int, y:int) = normalization factor
+
 def direction(eye, iris, nFac):
     # global samples
     # global avgX
@@ -26,15 +24,10 @@ def direction(eye, iris, nFac):
     if (nFac[1] == 0):
         nFac = (nFac[0], 1)
 
-    # print(nFac)
     # Determine iris location based on coordinate plane created by eye
     irisX = ((iris[0] - eye[0])+0.5)/nFac[0] # Normalize across eyeX
     irisY = ((iris[1] - eye[1])+0.5)/nFac[1] # Normalize across eyeY
-    # avgX = (avgX*(samples-1)+irisX)/samples
-    # avgY = (avgY*(samples-1)+irisY)/samples
-    # print("avgX", irisX)
-    # print("avgY", irisY)
-    # print(irisX, irisY)
+
     if (abs(irisX) > abs(irisY)):# We want to use the direction that the iris is furthest in
         if (irisX >= 0.5): #Iris is right
             return "RIGHT"
@@ -53,6 +46,7 @@ frame_counter = 0
 # constants 
 FONTS =cv.FONT_HERSHEY_COMPLEX
 LEFT_EYE = [362, 382, 381, 380, 374, 373, 390, 249, 263, 466, 388, 387, 386, 385, 384, 398]
+
 #right eyes indices 
 RIGHT_EYE=[33, 7, 163, 144, 145, 153, 154, 155, 133, 173, 157, 158, 159, 160, 161, 246]
 LEFT_IRIS=[474, 475, 476, 477]
@@ -113,6 +107,7 @@ with map_face_mesh.FaceMesh(
                 mDir = rDir
             elif (rDir == "STRAIGHT"):
                 mDir = lDir 
+            
             #Take precedence of left or right before up/down
             elif (lDir == "RIGHT" or rDir == "RIGHT"): 
                 mDir = "RIGHT"

@@ -7,6 +7,9 @@
 #define in3 6
 #define in4 7
 
+#define BIT0 12
+#define BIT1 13
+
 void Forward();
 void Stop();
 void Left();
@@ -20,27 +23,21 @@ void setup() {
   pinMode(in2, OUTPUT);
   pinMode(in3, OUTPUT);
   pinMode(in4, OUTPUT);
+  pinMode(BIT0, INPUT);    
+  pinMode(BIT1, INPUT);    
   Serial.begin(9600); // start serial communication with the Arduino Uno at 9600 baud
 }
 
 void loop() {
-  int i;
-  for(i=0; i<300;i++){
-    Forward();
-    delay(10);
-  }
-  for(i=0; i<300;i++){
-    Stop();
-    delay(10);
-  }
-  for(i=0; i<300;i++){
-    Right();
-    delay(10);
-  }
-  for(i=0; i<300;i++){
-    Left();
-    delay(10);
-  }
+  Serial.print("B1");
+  Serial.print(digitalRead(BIT1));
+  Serial.print("B1end");
+  Serial.println();
+  Serial.print("B0");
+  Serial.print(digitalRead(BIT0));
+  Serial.print("B0end");
+  Serial.println();
+  delay(200);
 }
 
 void Forward(){

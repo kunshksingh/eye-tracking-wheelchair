@@ -1,0 +1,6 @@
+https://github.com/espressif/arduino-esp32/blob/409926ef778c8d0beabb53c09d6515d94b3fe00b/libraries/WiFi/examples/SimpleWiFiServer/SimpleWiFiServer.ino
+https://realpython.com/python-sockets/
+https://cdn.arduino.cc/reference/en/language/functions/digital-io/digitalread/
+https://www.arduino.cc/reference/en/language/functions/digital-io/digitalwrite/
+https://randomnerdtutorials.com/esp32-servo-motor-web-server-arduino-ide/
+https://howtomechatronics.com/tutorials/arduino/arduino-dc-motor-control-tutorial-l298n-pwm-h-bridge/

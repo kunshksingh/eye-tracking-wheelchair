@@ -124,20 +124,20 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     mDir = rDir
 
                 # Encode our eye direction into a bitstring:
-                # Bin(0) => up (break)
-                # Bin(1) => down (straight)
-                # Bin(2) => left (left)
-                # Bin(3) right (right)
+                # Digit one determines if up
+                # Digit two determines if down
+                # Digit three determines if left
+                # Digit four determines if right
                 # All digits 0 if no direction ("NONE" output)
-                bitstring = "00\n"
+                bitstring = "0000\n"
                 if mDir == "UP":
-                    bitstring = "00\n"
+                    bitstring = "1000\n"
                 elif mDir == "DOWN": 
-                    bitstring = "01\n"
+                    bitstring = "0100\n"
                 elif mDir == "LEFT":
-                    bitstring = "10\n"
+                    bitstring = "0010\n"
                 elif mDir == "RIGHT":
-                    bitstring = "11\n"
+                    bitstring = "0001\n"
 
                 s.sendall(bitstring.encode()) #Send eye-direction data over TCP stream
 

@@ -9,15 +9,17 @@
 
 #define RXp2 16
 #define TXp2 17
+#define BITpin0 22
+#define BITpin1 23
 
 //wifi password
 //must be 2.4GHZ => for iphone 12 and up select maximize compatability in personal hotspot settings
 //Dhruv Hot Spot
-const char* ssid     = "iPhone";
-const char* password = "DhruveyGroove";
+//const char* ssid     = "iPhone";
+//const char* password = "DhruveyGroove";
 //Kunsh Hot Spot
-// const char* ssid     = "@imthekunsh";
-// const char* password = "bubjibing";
+ const char* ssid     = "@imthekunsh";
+ const char* password = "bubjibing";
 
 int left = 0;
 int right = 0;
@@ -40,27 +42,29 @@ void Right();
 
 void setup()
 {
+  pinMode(BITpin0,OUTPUT);
+  pinMode(BITpin1,OUTPUT);
   //setup motor positions 
 
     ForwardServo.attach(ForwardPort);
     LeftServo.attach(LeftPort);
     RightServo.attach(RightPort);
     //90 to 0
-    ForwardServo.write(90);
+    ForwardServo.write(120);
     delay(100);
     ForwardServo.detach();
     //90 to 180
-    LeftServo.write(90);
+    LeftServo.write(60);
     delay(100);
     LeftServo.detach();
     //90 to 180
-    RightServo.write(90);
+    RightServo.write(80);
     delay(100);
     RightServo.detach();
 
 
-    Serial.begin(115200);
-    Serial2.begin(9600, SERIAL_8N1, RXp2, TXp2);
+    Serial.begin(9600);
+    
     delay(10);
 
     // We start by connecting to a WiFi network
@@ -99,22 +103,29 @@ void loop(){
     while (client.connected()) {            // loop while the client's connected
       if (client.available()) {             // if there's bytes to read from the client,
         char c = client.read();             // read a byte, then
-        Serial.write(c);                    // print it out the serial monitor
+        // Serial.write(c);                    // print it out the serial monitor
         if (c == '\n') {                    // if the byte is a newline character
-            Serial.println(Serial2.readString());
             client.println();
             switch (currPos){
             // Bitstring : (Up)(Down)(Left)(Right) => ex. "0100" is Down
               case 1:
+                digitalWrite(BITpin0, HIGH);
+                digitalWrite(BITpin1, LOW);
                 Stop();
                 break;
               case 2:
+                digitalWrite(BITpin0, LOW);
+                digitalWrite(BITpin1, HIGH);
                 Forward();
                 break;
               case 3:
+                digitalWrite(BITpin0, HIGH);
+                digitalWrite(BITpin1, HIGH);
                 Left();
                 break;
               case 4:
+                digitalWrite(BITpin0, LOW);
+                digitalWrite(BITpin1, LOW);
                 Right();
                 break;
             } 
@@ -139,10 +150,11 @@ void loop(){
   }
 }
 void Forward(){
+  LeftServo.detach();
+  RightServo.detach();
   ForwardServo.attach(ForwardPort);
   ForwardServo.write(0);
-  delay(100);
-  ForwardServo.detach();
+  delay(10);
   Serial.print("Forward");
 }
 void Stop(){
@@ -151,29 +163,31 @@ void Stop(){
   RightServo.attach(RightPort);
   //90 to 0
   ForwardServo.write(90);
-  delay(100);
+  delay(10);
   ForwardServo.detach();
   //90 to 180
   LeftServo.write(90);
-  delay(100);
+  delay(10);
   LeftServo.detach();
   //90 to 180
   RightServo.write(90);
-  delay(100);
+  delay(10);
   RightServo.detach();
   Serial.print("Stop");
 }
 void Right(){
+  ForwardServo.detach();
+  LeftServo.detach();
   RightServo.attach(RightPort);
   RightServo.write(180);
-  delay(100);
-  RightServo.detach();
+  delay(10);
   Serial.print("Right");
 }
 void Left(){
+  ForwardServo.detach();
+  RightServo.detach();
   LeftServo.attach(LeftPort);
   LeftServo.write(180);
-  delay(100);
-  LeftServo.detach();
+  delay(10);
   Serial.print("Left");
 }

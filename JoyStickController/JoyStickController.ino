@@ -6,7 +6,7 @@ int ForwardBackPort = 15;
 int LeftRightPort = 2;
 
 void Forward();
-void Backward();
+void Stop();
 void Left();
 void Right();
 
@@ -34,7 +34,7 @@ void Forward(){
 
   ForwardBack_servo.detach();
 }
-void Backwards(){
+void Stop(){
   ForwardBack_servo.attach(ForwardBackPort);
 
   ForwardBack_servo.detach();

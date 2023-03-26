@@ -129,17 +129,17 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 # Digit three determines if left
                 # Digit four determines if right
                 # All digits 0 if no direction ("NONE" output)
-                bitstring = "0000"
+                bitstring = "0000\n"
                 if mDir == "UP":
-                    bitstring = "1000"
+                    bitstring = "1000\n"
                 elif mDir == "DOWN": 
-                    bitstring = "0100"
+                    bitstring = "0100\n"
                 elif mDir == "LEFT":
-                    bitstring = "0010"
+                    bitstring = "0010\n"
                 elif mDir == "RIGHT":
-                    bitstring = "0001"
-                    
-                s.sendall(mDir.encode(bitstring)) #Send eye-direction data over TCP stream
+                    bitstring = "0001\n"
+
+                s.sendall(bitstring.encode()) #Send eye-direction data over TCP stream
 
                 # calculating frame per seconds FPS
                 end_time = time.time()-start_time
